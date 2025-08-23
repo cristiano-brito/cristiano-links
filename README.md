@@ -9,7 +9,7 @@ Página estática responsiva funcionando como hub central para meus links profis
 - **GitHub Pages** - Hospedagem gratuita
 
 ## 🌐 Acesse
-**URL oficial:** https://cristianocode.github.io
+**URL oficial:** https://cristiano-brito.github.io/cristiano-links/
 
 ## 📋 Funcionalidades
 - Design responsivo (mobile-first)
@@ -19,6 +19,6 @@ Página estática responsiva funcionando como hub central para meus links profis
 
 ## 🔧 Como executar localmente
 ```bash
-git clone https://github.com/cristianocode/cristianocode.github.io.git
-cd cristianocode.github.io
+git clone https://github.com/cristiano-brito/cristiano-links.git
+cd cristiano-links
 # Abra o arquivo index.html no navegador
