@@ -1,0 +1,27 @@
+.main-footer {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 3rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.main-footer p {
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+.credentials small {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--accent-color);
+    opacity: 0.8;
+    transition: opacity 0.5s ease-in-out;
+    display: inline-block;
+    min-height: 1.2em; /* Mantém altura consistente */
+}
+
+.credentials small:hover {
+    opacity: 1;
+    color: var(--secondary-color);
+    cursor: default;
+}

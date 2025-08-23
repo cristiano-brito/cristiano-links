@@ -1,0 +1,381 @@
+/* ==========================================================================
+   IMPORTAÇÕES DE COMPONENTES E LAYOUTS
+   ========================================================================== */
+
+/* 🎯 Componentes */
+@import url('components/buttons.css');
+@import url('components/cards.css');
+@import url('components/animations.css');
+@import url('components/social-links.css');
+
+/* 📐 Layouts */
+@import url('layouts/header.css');
+@import url('layouts/footer.css');
+
+/* ==========================================================================
+   VARIÁVEIS CSS GLOBAIS
+   ========================================================================== */
+
+:root {
+    /* 🎨 Cores principais */
+    --primary-color: #0a0a0a;
+    --secondary-color: #00ff88;
+    --accent-color: #ff6b35;
+    --text-color: #f0f0f0;
+    --card-bg: #1a1a1a;
+    --border-color: #333333;
+    
+    /* 🖋️ Tipografia */
+    --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+    /* 📏 Espaçamento */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    
+    /* 🔲 Bordas */
+    --border-radius: 0.5rem;
+    --border-radius-lg: 0.75rem;
+    
+    /* ⚡ Transições */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+}
+
+[data-theme="light"] {
+    /* 🎨 TEMA LIGHT */
+    --primary-color: #ffffff;
+    --secondary-color: #007a5a; /* Verde mais escuro */
+    --accent-color: #e64a19;    /* Laranja mais escuro */
+    --text-color: #333333;      /* Texto escuro */
+    --card-bg: #f5f5f5;
+    --border-color: #dddddd;
+    --surface-color: #ffffff;
+    --background-color: #f5f5f5;
+}
+
+/* ==========================================================================
+   RESET E ESTILOS GLOBAIS
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-main);
+    background: var(--primary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   ELEMENTOS HTML BÁSICOS
+   ========================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: var(--spacing-md);
+    color: var(--secondary-color);
+}
+
+h1 {
+    font-size: clamp(2rem, 5vw, 2.5rem); /* 📱 Responsivo */
+}
+
+h2 {
+    font-size: clamp(1.5rem, 4vw, 2rem); /* 📱 Responsivo */
+}
+
+p {
+    margin-bottom: var(--spacing-md);
+    line-height: 1.6;
+}
+
+a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: color var(--transition-normal);
+}
+
+a:hover {
+    color: var(--accent-color);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ==========================================================================
+   UTILITÁRIOS GLOBAIS
+   ========================================================================== */
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ==========================================================================
+   ACESSIBILIDADE
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+:focus-visible {
+    outline: 2px solid var(--secondary-color);
+    outline-offset: 2px;
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE - BREAKPOINTS COMPLETOS
+   ========================================================================== */
+
+/* 📱 Mobile First - Base (0px a 767px) */
+@media screen and (max-width: 767px) {
+    :root {
+        --spacing-md: 0.75rem;
+        --spacing-lg: 1.25rem;
+        --spacing-xl: 1.5rem;
+    }
+    
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
+    
+    body {
+        font-size: 0.95rem;
+    }
+}
+
+/* 📟 Tablet (768px a 1023px) */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .container {
+        max-width: 90%;
+    }
+    
+    h1 {
+        font-size: 2.25rem;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+    }
+}
+
+/* 💻 Desktop (1024px a 1439px) */
+@media screen and (min-width: 1024px) and (max-width: 1439px) {
+    .container {
+        max-width: 1000px;
+    }
+}
+
+/* 🖥️ Large Desktop (1440px+) */
+@media screen and (min-width: 1440px) {
+    .container {
+        max-width: 1200px;
+    }
+    
+    html {
+        font-size: 18px; /* 📝 Aumenta base font size para telas grandes */
+    }
+}
+
+/* 📐 Orientation-specific */
+@media screen and (max-width: 767px) and (orientation: landscape) {
+    .container {
+        padding: 0 var(--spacing-xs);
+    }
+    
+    h1 {
+        font-size: 1.75rem;
+    }
+}
+
+/* 🎯 High-resolution displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    img {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+/* 🔧 Utilidades responsivas */
+@media screen and (max-width: 767px) {
+    .hide-mobile {
+        display: none !important;
+    }
+    
+    .show-desktop {
+        display: none !important;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .show-mobile {
+        display: none !important;
+    }
+}
+
+/* ==========================================================================
+   UTILITÁRIOS DE LAYOUT RESPONSIVOS
+   ========================================================================== */
+
+.flex {
+    display: flex;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.grid {
+    display: grid;
+}
+
+/* 📱 Grid responsivo */
+@media screen and (max-width: 767px) {
+    .grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-lg);
+    }
+    
+    .grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-lg);
+    }
+}
+
+/* ==========================================================================
+   TIPOGRAFIA RESPONSIVA
+   ========================================================================== */
+
+.lead-text {
+    font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+    line-height: 1.7;
+}
+
+.small-text {
+    font-size: clamp(0.875rem, 2vw, 0.9rem);
+}
+
+/* ==========================================================================
+   ESPAÇAMENTO RESPONSIVO
+   ========================================================================== */
+
+.section-padding {
+    padding: var(--spacing-xl) 0;
+}
+
+@media screen and (max-width: 767px) {
+    .section-padding {
+        padding: var(--spacing-lg) 0;
+    }
+}
+
+/* ==========================================================================
+   COMPONENTES RESPONSIVOS COMUNS
+   ========================================================================== */
+
+/* 🔗 Links sociais responsivos */
+.social-grid {
+    display: grid;
+    gap: var(--spacing-sm);
+}
+
+@media screen and (max-width: 767px) {
+    .social-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .social-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: var(--spacing-md);
+    }
+}
+
+/* 🎯 Botões responsivos */
+@media screen and (max-width: 480px) {
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+}
+
+/* 📐 Cards responsivos */
+@media screen and (max-width: 767px) {
+    .profile-card {
+        padding: var(--spacing-lg);
+        margin: 0 var(--spacing-sm);
+    }
+}
