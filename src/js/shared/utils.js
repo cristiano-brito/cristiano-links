@@ -1,14 +1,10 @@
-// src/js/shared/utils.js
 /**
- * @file Utilitários compartilhados
- * @description Funções auxiliares reutilizáveis
+ * UTILITÁRIOS: Funções auxiliares
+ * Responsabilidade: Funções reutilizáveis entre componentes
  */
 
-export const utils = {
-    /**
-     * Debounce function para eventos
-     */
-    debounce(func, wait) {
+export class Utils {
+    static debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
             const later = () => {
@@ -18,74 +14,48 @@ export const utils = {
             clearTimeout(timeout);
             timeout = setTimeout(later, wait);
         };
-    },
+    }
 
-    /**
-     * Copiar texto para clipboard
-     */
-    async copyToClipboard(text, successMessage = 'Copiado!') {
+    static async copyToClipboard(text, successMessage = 'Copiado!') {
         try {
             await navigator.clipboard.writeText(text);
             this.showNotification(successMessage);
             return true;
         } catch (err) {
             console.error('Falha ao copiar:', err);
-            // Fallback para método antigo
-            try {
-                const textArea = document.createElement('textarea');
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                this.showNotification(successMessage);
-                return true;
-            } catch (fallbackError) {
-                console.error('Fallback também falhou:', fallbackError);
-                return false;
-            }
+            return false;
         }
-    },
+    }
 
-    /**
-     * Mostrar notificação temporária
-     */
-    showNotification(message, duration = 2000) {
+    static showNotification(message, duration = 3000) {
         const notification = document.createElement('div');
         notification.className = 'notification';
         notification.textContent = message;
+        
         notification.style.cssText = `
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: var(--secondary-color);
-            color: var(--primary-color);
+            background: var(--color-secondary);
+            color: var(--color-primary);
             padding: 12px 20px;
             border-radius: 8px;
             z-index: 1000;
-            animation: slideIn 0.3s ease;
         `;
 
         document.body.appendChild(notification);
 
         setTimeout(() => {
-            notification.style.animation = 'slideOut 0.3s ease';
-            setTimeout(() => notification.remove(), 300);
+            notification.remove();
         }, duration);
-    },
+    }
 
-    /**
-     * Formatar dados
-     */
-    formatDate(date) {
+    static formatDate(date) {
         return new Date(date).toLocaleDateString('pt-BR');
-    },
+    }
 
-    /**
-     * Validar email
-     */
-    isValidEmail(email) {
+    static isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
-};
+}

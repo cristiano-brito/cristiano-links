@@ -1,368 +1,420 @@
-// src/js/main.js - Arquivo principal JavaScript
 /**
- * @file Arquivo principal da aplicação - Cristiano | Bug Hunter
- * @description Coordena todos os módulos e funcionalidades
- * @version 1.0.0
+ * ARQUIVO PRINCIPAL: Ponto de entrada da aplicação
+ * JavaScript puro sem modules
  */
 
-// ==============================================
-// IMPORTAÇÕES DE MÓDULOS INTERNOS
-// ==============================================
-
-// Importando utilitários (caminho relativo conforme sua estrutura)
-import { utils } from './shared/utils.js';
-import { AnalyticsService } from './services/analytics.js';
-import { ThemeManager } from './services/themeManager.js';
-
-// ==============================================
-// CONFIGURAÇÕES GLOBAIS
-// ==============================================
-
-const CONFIG = {
-    theme: 'dark',
-    animations: true,
-    debug: false,
+// 📝 ALTERAR: Seus dados pessoais aqui
+const USER_CONFIG = {
+    email: 'andrade.digital@zohomail.com',
     socialLinks: {
-        github: 'https://github.com/cristianocode',
-        linkedin: 'https://linkedin.com/in/cristiano',
-        twitter: 'https://twitter.com/Cristiano_code',
-        discord: 'https://discord.com/users/seu_id',
-        email: 'mailto:seu.email@exemplo.com'
-    },
-    paths: {
-        images: '/src/assets/images/',
-        fonts: '/src/assets/fonts/'
+        github: {
+            url: 'https://github.com/cristiano-brito',
+            icon: 'fab fa-github',
+            label: 'GitHub'
+        },
+        linkedin: {
+            url: 'https://www.linkedin.com/in/cristiano-de-andrade-507598198/', 
+            icon: 'fab fa-linkedin',
+            label: 'LinkedIn'
+        },
+        email: {
+            url: 'mailto:andrade.digital@zohomail.com',
+            icon: 'fas fa-envelope',
+            label: 'Email'
+        }
     }
 };
 
-// ==============================================
-// MÓDULO PRINCIPAL DA APLICAÇÃO
-// ==============================================
+// 🎯 FRASES PARA ROTAÇÃO DO FOOTER (coloque NO INÍCIO do arquivo)
+const FOOTER_PHRASES = [
+    "Compilado com ♥ e debugado com ☕",
+    "Caçando bugs desde 2018",
+    "Build: Stable | Bugs: 0 | Café: ∞", 
+    "De Salvador para o mundo do código",
+    "Transformando café em commits",
+    "Code > Coffee > Repeat",
+    "On-duty: 24/7 | Bugs hunted: ∞",
+    "Powered by coffee and curiosity",
+    "Eliminando bugs, criando soluções",
+    "Lines of code: ∞ | Cups of coffee: ∞"
+];
 
-const App = {
-    /**
-     * Inicializa a aplicação
-     */
-    async init() {
-        console.log('🐞 Bug Hunter - Inicializando aplicação...');
-        
-        try {
-            // Inicializar serviços
-            await this.initServices();
-            
-            // Inicializar componentes
-            this.initTheme();
-            this.initAnimations();
-            this.initEventListeners();
-            this.initSocialLinks();
-            this.initScrollEffects();
-            
-            // Monitoramento
-            this.initPerformanceMonitoring();
-            
-            console.log('✅ Aplicação inicializada com sucesso!');
-            
-            // Disparar evento de inicialização completa
-            window.dispatchEvent(new CustomEvent('appInitialized'));
-            
-        } catch (error) {
-            console.error('❌ Erro na inicialização:', error);
-            this.handleInitError(error);
-        }
-    },
-
-    // ==============================================
-    // INICIALIZAÇÃO DE SERVIÇOS
-    // ==============================================
-
-    async initServices() {
-        // Inicializar Analytics (se configurado)
-        if (typeof AnalyticsService !== 'undefined') {
-            AnalyticsService.init();
-        }
-
-        // Carregar fonts customizadas
-        await this.loadCustomFonts();
-    },
-
-    async loadCustomFonts() {
-        // Exemplo: Carregar fontes personalizadas
-        try {
-            const font = new FontFace('CustomFont', 'url(/src/assets/fonts/custom-font.woff2)');
-            await font.load();
-            document.fonts.add(font);
-            document.documentElement.style.setProperty('--font-primary', 'CustomFont');
-        } catch (error) {
-            console.warn('⚠️ Não foi possível carregar fontes customizadas:', error);
-        }
-    },
-
-    // ==============================================
-    // GERENCIAMENTO DE TEMA
-    // ==============================================
-
-    initTheme() {
-        const themeManager = new ThemeManager();
-        themeManager.init();
-        
-        // Expor themeManager globalmente se necessário
-        window.themeManager = themeManager;
-    },
-
-    // ==============================================
-    // ANIMAÇÕES E EFEITOS VISUAIS
-    // ==============================================
-
-    initAnimations() {
-        if (!CONFIG.animations) return;
-        
-        this.setupScrollAnimations();
-        this.setupHoverEffects();
-        this.setupTypewriterEffect();
-        this.setupLazyLoading();
-    },
-
-    setupScrollAnimations() {
-        const animateOnScroll = (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                    observer.unobserve(entry.target);
-                }
-            });
-        };
-
-        const observer = new IntersectionObserver(animateOnScroll, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-
-        document.querySelectorAll('[data-animate]').forEach(el => {
-            observer.observe(el);
-        });
-    },
-
-    setupHoverEffects() {
-        const hoverElements = document.querySelectorAll('[data-hover]');
-        
-        hoverElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                el.classList.add('hover-active');
-            });
-            
-            el.addEventListener('mouseleave', () => {
-                el.classList.remove('hover-active');
-            });
-        });
-    },
-
-    setupTypewriterEffect() {
-        const typewriterElements = document.querySelectorAll('[data-typewriter]');
-        
-        typewriterElements.forEach(el => {
-            const text = el.textContent;
-            el.textContent = '';
-            
-            const type = () => {
-                let i = 0;
-                const typeNext = () => {
-                    if (i < text.length) {
-                        el.textContent += text.charAt(i);
-                        i++;
-                        setTimeout(typeNext, 100);
-                    }
-                };
-                typeNext();
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) {
-                    type();
-                    observer.unobserve(el);
-                }
-            });
-            
-            observer.observe(el);
-        });
-    },
-
-    setupLazyLoading() {
-        const lazyImages = document.querySelectorAll('img[data-src]');
-        
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src;
-                    img.classList.remove('lazy');
-                    imageObserver.unobserve(img);
-                }
-            });
-        });
-
-        lazyImages.forEach(img => imageObserver.observe(img));
-    },
-
-    // ==============================================
-    // EVENT LISTENERS E INTERAÇÕES
-    // ==============================================
-
-    initEventListeners() {
-        // Smooth scroll para links internos
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = document.querySelector(anchor.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Copiar email para clipboard
-        const emailBtn = document.querySelector('[data-copy-email]');
-        if (emailBtn) {
-            emailBtn.addEventListener('click', () => {
-                this.copyToClipboard('seu.email@exemplo.com', 'E-mail copiado!');
-            });
-        }
-
-        // Prevenir comportamento padrão de forms
-        document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', (e) => e.preventDefault());
-        });
-
-        // Resize debounced
-        window.addEventListener('resize', utils.debounce(() => {
-            this.handleResize();
-        }, 250));
-    },
-
-    handleResize() {
-        // Atualizar layouts responsivos
-        document.documentElement.style.setProperty('--viewport-height', `${window.innerHeight}px`);
-    },
-
-    // ==============================================
-    // LINKS SOCIAIS
-    // ==============================================
-
-    initSocialLinks() {
-        const socialContainer = document.querySelector('[data-social-links]');
-        if (!socialContainer) return;
-
-        Object.entries(CONFIG.socialLinks).forEach(([platform, url]) => {
-            const link = document.createElement('a');
-            link.href = url;
-            link.target = '_blank';
-            link.rel = 'noopener noreferrer';
-            link.className = `social-link social-${platform}`;
-            link.innerHTML = `<i class="fab fa-${platform}"></i>`;
-            link.setAttribute('aria-label', `${platform} profile`);
-            
-            socialContainer.appendChild(link);
-        });
-    },
-
-    // ==============================================
-    // EFEITOS DE SCROLL
-    // ==============================================
-
-    initScrollEffects() {
-        let lastScrollY = window.scrollY;
-        
-        const handleScroll = () => {
-            const header = document.querySelector('header');
-            if (!header) return;
-
-            if (window.scrollY > lastScrollY && window.scrollY > 100) {
-                header.classList.add('header-hidden');
-            } else {
-                header.classList.remove('header-hidden');
-            }
-            
-            lastScrollY = window.scrollY;
-            
-            // Atualizar variável CSS de progresso do scroll
-            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            document.documentElement.style.setProperty('--scroll-progress', `${scrollPercent}%`);
-        };
-
-        window.addEventListener('scroll', utils.debounce(handleScroll, 100));
-    },
-
-    // ==============================================
-    // MONITORAMENTO DE PERFORMANCE
-    // ==============================================
-
-    initPerformanceMonitoring() {
-        // Medir tempo de carregamento
-        window.addEventListener('load', () => {
-            const loadTime = performance.now();
-            if (CONFIG.debug) {
-                console.log(`⚡ Página carregada em: ${loadTime.toFixed(2)}ms`);
-            }
-        });
-
-        // Monitorar erros globais
-        window.addEventListener('error', (e) => {
-            console.error('❌ Erro global:', e.error);
-        });
-
-        // Monitorar promessas não tratadas
-        window.addEventListener('unhandledrejection', (e) => {
-            console.error('❌ Promise rejeitada:', e.reason);
-        });
-    },
-
-    // ==============================================
-    // MANIPULAÇÃO DE ERROS
-    // ==============================================
-
-    handleInitError(error) {
-        // Mostrar mensagem de erro amigável
-        const errorElement = document.createElement('div');
-        errorElement.className = 'error-message';
-        errorElement.innerHTML = `
-            <p>Oops! Algo deu errado ao carregar a página.</p>
-            <small>${CONFIG.debug ? error.message : 'Tente recarregar a página.'}</small>
-        `;
-        
-        document.body.appendChild(errorElement);
-    },
-
-    // ==============================================
-    // UTILITÁRIOS PÚBLICOS
-    // ==============================================
-
-    async copyToClipboard(text, successMessage = 'Copiado!') {
-        return utils.copyToClipboard(text, successMessage);
-    },
-
-    showNotification(message, duration = 2000) {
-        return utils.showNotification(message, duration);
+// 🎨 Theme Manager
+class ThemeManager {
+    constructor() {
+        this.currentTheme = 'dark';
     }
-};
 
-// ==============================================
-// INICIALIZAÇÃO E EXPORTAÇÃO
-// ==============================================
+    init() {
+        this.loadSavedTheme();
+        this.initThemeToggle();
+        console.log('🎨 ThemeManager inicializado');
+    }
 
-// Inicializar quando o DOM estiver pronto
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => App.init());
-} else {
-    App.init();
+    loadSavedTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        this.setTheme(savedTheme);
+    }
+
+    setTheme(theme) {
+        this.currentTheme = theme;
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        this.updateThemeIcon();
+    }
+
+    initThemeToggle() {
+        const themeBtn = document.querySelector('[data-theme-toggle]');
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => this.toggleTheme());
+        }
+    }
+
+    toggleTheme() {
+        const newTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+        this.setTheme(newTheme);
+    }
+
+    updateThemeIcon() {
+        const icon = document.querySelector('[data-theme-icon]');
+        if (icon) {
+            icon.className = this.currentTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+    }
 }
 
-// Exportar para uso em outros módulos
-export { App, CONFIG };
+// 🔗 Social Links
+class SocialLinks {
+    constructor() {
+        this.socialLinks = USER_CONFIG.socialLinks;
+    }
 
-// Expor globalmente para debugging (apenas em desenvolvimento)
-if (CONFIG.debug) {
-    window.App = App;
-    window.CONFIG = CONFIG;
+    init() {
+        this.renderSocialLinks();
+        console.log('🔗 SocialLinks inicializado');
+    }
+
+    renderSocialLinks() {
+        const container = document.querySelector('[data-social-links]');
+        if (!container) {
+            console.error('❌ Container [data-social-links] não encontrado');
+            return;
+        }
+
+        container.innerHTML = Object.entries(this.socialLinks)
+            .map(([key, config]) => `
+                <a href="${config.url}" 
+                class="social-link" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                aria-label="${config.label}">
+                    <i class="${config.icon}"></i>
+                    <span>${config.label}</span>
+                </a>
+            `).join('');
+
+        console.log('🔗 Links sociais renderizados');
+    }
+}
+
+// ⌨️ Typewriter Effect
+class Typewriter {
+    init() {
+        this.startTypewriterEffects();
+        console.log('⌨️ Typewriter inicializado');
+    }
+
+    startTypewriterEffects() {
+        const elements = document.querySelectorAll('[data-typewriter]');
+        if (elements.length === 0) return;
+
+        elements.forEach(el => {
+            const text = el.textContent;
+            el.textContent = '';
+            this.typeText(el, text, 100);
+        });
+    }
+
+    typeText(element, text, speed) {
+        let i = 0;
+        const type = () => {
+            if (i < text.length) {
+                element.textContent += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            }
+        };
+        type();
+    }
+}
+
+// ⚡ Utils
+class Utils {
+    static async copyToClipboard(text, successMessage = 'Copiado!') {
+        try {
+            await navigator.clipboard.writeText(text);
+            this.showNotification(successMessage);
+            return true;
+        } catch (err) {
+            console.error('Falha ao copiar:', err);
+            return this.copyToClipboardFallback(text, successMessage);
+        }
+    }
+
+    static copyToClipboardFallback(text, successMessage) {
+        try {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            this.showNotification(successMessage);
+            return true;
+        } catch (error) {
+            console.error('Fallback também falhou:', error);
+            return false;
+        }
+    }
+
+    static showNotification(message, duration = 3000) {
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, duration);
+    }
+}
+
+// 📊 Analytics Service
+class AnalyticsService {
+    static init() {
+        console.log('📊 AnalyticsService inicializado');
+    }
+
+    static trackEvent(category, action, label) {
+        console.log(`📈 Event: ${category} - ${action} - ${label}`);
+    }
+}
+
+// 🎯 Main App
+class App {
+  constructor() {
+    this.modules = {};
+    this.isInitialized = false;
+    this.animationObserver = null;
+    this.footerInterval = null;
+  }
+
+  init() {
+    if (this.isInitialized) return;
+
+    try {
+      console.log("🚀 Iniciando aplicação...");
+
+      // 1. Inicializar serviços
+      this.initServices();
+
+      // 2. Inicializar componentes
+      this.initComponents();
+
+      // 3. Inicializar animações
+      this.initAnimations();
+
+      // 4. Configurar event listeners
+      this.initEventListeners();
+
+      // 5. Inicializar rotação do footer ✅ ADICIONAR ESTA LINHA
+      this.initFooterRotation();
+
+      this.isInitialized = true;
+      console.log("✅ Aplicação inicializada com sucesso");
+    } catch (error) {
+      console.error("❌ Erro na inicialização:", error);
+      this.handleError(error);
+    }
+  }
+
+  initServices() {
+    // 🎨 Serviço de Tema
+    this.modules.theme = new ThemeManager();
+    this.modules.theme.init();
+
+    // 📊 Serviço de Analytics
+    AnalyticsService.init();
+  }
+
+  initComponents() {
+    // 🔗 Componente de Links Sociais
+    this.modules.socialLinks = new SocialLinks();
+    this.modules.socialLinks.init();
+
+    // ⌨️ Componente Typewriter
+    this.modules.typewriter = new Typewriter();
+    this.modules.typewriter.init();
+  }
+
+  initAnimations() {
+    // 🔍 Observador de Intersection para animações
+    this.animationObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-in");
+            this.animationObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    // 👀 Observar todos os elementos com data-animate
+    const animatedElements = document.querySelectorAll("[data-animate]");
+
+    if (animatedElements.length === 0) {
+      console.warn("⚠️ Nenhum elemento com [data-animate] encontrado");
+      return;
+    }
+
+    animatedElements.forEach((el) => {
+      this.animationObserver.observe(el);
+    });
+
+    console.log(`🎭 ${animatedElements.length} elementos para animar`);
+  }
+
+  initEventListeners() {
+    // 📧 Copiar email (JÁ EXISTE)
+    const emailBtn = document.querySelector("[data-copy-email]");
+    if (emailBtn) {
+      emailBtn.addEventListener("click", () => {
+        Utils.copyToClipboard(USER_CONFIG.email, "📧 Email copiado!");
+      });
+    }
+
+    // 🆕 BOTÃO DE DOWNLOAD DO CV (ADICIONE ISSO)
+    const downloadCvBtn = document.querySelector('[data-download-cv]');
+    if (downloadCvBtn) {
+        downloadCvBtn.addEventListener('click', () => {
+            // ✅ Funciona localmente e em produção
+            window.open('cv-cristiano-andrade.pdf', '_blank');
+        });
+    }
+
+    // 🖱️ Smooth scroll para links internos (JÁ EXISTE)
+    const internalLinks = document.querySelectorAll('a[href^="#"]');
+    if (internalLinks.length > 0) {
+      internalLinks.forEach((anchor) => {
+        anchor.addEventListener("click", (e) => {
+          e.preventDefault();
+          const target = document.querySelector(anchor.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+    }
+  }
+
+  handleError(error) {
+    console.error("Erro na aplicação:", error);
+
+    // Mostrar mensagem de erro amigável
+    const errorElement = document.createElement("div");
+    errorElement.className = "notification";
+    errorElement.innerHTML = `
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>Oops! Algo deu errado.</span>
+        `;
+
+    document.body.appendChild(errorElement);
+
+    setTimeout(() => {
+      if (errorElement.parentNode) {
+        errorElement.remove();
+      }
+    }, 5000);
+  }
+
+  initFooterRotation() {
+    const credentialEl = document.querySelector(".credentials small");
+    if (!credentialEl) {
+      console.warn("⚠️ Elemento .credentials small não encontrado");
+      return;
+    }
+
+    let currentIndex = 0;
+
+    const rotatePhrase = () => {
+      credentialEl.style.opacity = "0";
+
+      setTimeout(() => {
+        credentialEl.textContent = FOOTER_PHRASES[currentIndex];
+        credentialEl.style.opacity = "1";
+
+        currentIndex = (currentIndex + 1) % FOOTER_PHRASES.length;
+      }, 500);
+    };
+
+    // ✅ Usar this.footerInterval em vez de setInterval direto
+    this.footerInterval = setInterval(rotatePhrase, 5000);
+
+    currentIndex = Math.floor(Math.random() * FOOTER_PHRASES.length);
+    rotatePhrase();
+
+    console.log("🔄 Footer rotation initialized");
+  }
+
+  // 🧹 NOVA FUNÇÃO DESTROY - Adicione no final da classe App
+  destroy() {
+    console.log("🛑 Destruindo aplicação...");
+
+    // 1. Parar observador de animações
+    if (this.animationObserver) {
+      this.animationObserver.disconnect();
+      this.animationObserver = null;
+    }
+
+    // 2. Parar rotação do footer
+    if (this.footerInterval) {
+      clearInterval(this.footerInterval);
+      this.footerInterval = null;
+    }
+
+    // 3. Remover event listeners (se necessário)
+    // Você pode adicionar remoção de event listeners específicos aqui
+
+    // 4. Limpar módulos
+    this.modules = {};
+
+    this.isInitialized = false;
+    console.log("✅ Aplicação destruída com sucesso");
+  }
+}
+
+// ⏳ Inicializar quando o DOM estiver pronto
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        window.app = new App();
+        window.app.init();
+    });
+} else {
+    // DOM já está pronto
+    window.app = new App();
+    window.app.init();
 }

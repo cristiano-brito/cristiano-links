@@ -1,0 +1,64 @@
+/* components/social-links.css */
+.social-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin: var(--spacing-lg) 0;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--card-bg);
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-normal);
+    min-width: 120px;
+    justify-content: center;
+}
+
+.social-link:hover {
+    transform: translateY(-2px);
+    border-color: var(--secondary-color);
+    box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2);
+}
+
+.social-link i {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
+.social-link span {
+    font-weight: 500;
+}
+
+/* 📱 Responsividade para links sociais */
+@media screen and (max-width: 768px) {
+    .social-grid {
+        gap: 0.75rem;
+    }
+    
+    .social-link {
+        min-width: 100px;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .social-grid {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .social-link {
+        width: 100%;
+        min-width: auto;
+        justify-content: flex-start;
+    }
+}

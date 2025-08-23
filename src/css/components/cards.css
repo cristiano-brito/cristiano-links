@@ -1,0 +1,36 @@
+.profile-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.profile-card h2 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.profile-card p {
+    line-height: 1.7; /* 📝 Melhor espaçamento */
+    color: var(--text-color);
+    opacity: 0.9;
+    /* ❌ REMOVI: margin, max-width, text-align */
+}
+
+.profile-card strong {
+    color: var(--secondary-color); /* ✅ Destaque verde para negritos */
+    font-weight: 600;
+}
+
+/* 📱 Ajuste mobile mínimo */
+@media screen and (max-width: 768px) {
+    .profile-card {
+        padding: 1.5rem;
+    }
+    
+    .profile-card p {
+        line-height: 1.6;
+    }
+}
