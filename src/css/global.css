@@ -1,0 +1,29 @@
+/* Importação de componentes */
+@import url('components/buttons.css');
+@import url('components/cards.css');
+@import url('layouts/header.css');
+@import url('layouts/footer.css');
+
+/* Variáveis CSS globais */
+:root {
+    --primary-color: #0a0a0a;
+    --secondary-color: #00ff88;
+    --accent-color: #ff6b35;
+    --text-color: #f0f0f0;
+    --card-bg: #1a1a1a;
+    --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Reset e estilos globais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    background: var(--primary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
