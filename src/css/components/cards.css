@@ -13,10 +13,9 @@
 }
 
 .profile-card p {
-    line-height: 1.7; /* 📝 Melhor espaçamento */
+    line-height: 1.7;
     color: var(--text-color);
     opacity: 0.9;
-    /* ❌ REMOVI: margin, max-width, text-align */
 }
 
 .profile-card strong {
