@@ -2,6 +2,9 @@
 
 Página estática responsiva funcionando como hub central para meus links profissionais e redes sociais.
 
+## 📸 Preview
+<img width="1278" height="906" alt="image" src="https://github.com/user-attachments/assets/e29fd0e0-242d-45fa-90e2-c4734039bb31" />
+
 ## 🚀 Tecnologias Utilizadas
 - **HTML5** - Estrutura semântica
 - **CSS3** - Estilização com Flexbox/Grid e animações
